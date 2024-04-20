@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperatura en Tiempo Real</title>
+</head>
+<body>
+    <h1>Temperatura en Tiempo Real</h1>
+    <div id="temperature"></div>
+
+    <script>
+        // Función para cargar la temperatura en la página
+        function loadTemperature(temperature) {
+            document.getElementById("temperature").innerText = "temperatura: " + temperature + "°C";
+        }
+
+        // Función para actualizar la temperatura en tiempo real
+        function updateTemperature() {
+            // Realizar una solicitud HTTP para obtener la temperatura del servidor
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Si la solicitud fue exitosa, cargar la temperatura en la página
+                        loadTemperature(xhr.responseText);
+                    }
+                }
+            };
+            xhr.open("GET", "obtener_datos.php", true);
+            xhr.send();
+        }
+
+        // Actualizar la temperatura cada 5 segundos
+        setInterval(updateTemperature, 5000);
+
+        // Cargar la temperatura por primera vez al cargar la página
+        updateTemperature();
+    </script>
+</body>
+</html>
